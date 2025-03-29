@@ -3796,18 +3796,6 @@ static BOOL isDownloadFlied = NO;
             }
         }
     }
-
-    //禁用点击首页刷新
-    // 安全获取 superview 并修改 enabled
-    UIView *superview = [self superview];
-    if ([superview respondsToSelector:@selector(setEnabled:)]) {
-        [(id)superview setEnabled:NO];
-    }
-    
-    // 或者更精确的类型检查（如果知道具体类名）
-    if ([superview isKindOfClass:NSClassFromString(@"AWENormalModeTabBarGeneralButton")]) {
-        [(AWENormalModeTabBarGeneralButton *)superview setEnabled:NO];
-    }
 }
 
 %end
