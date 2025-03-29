@@ -3796,12 +3796,8 @@ static BOOL isDownloadFlied = NO;
             }
         }
     }
-}
-//禁用点击首页刷新
-- (void)layoutSubviews { // 假设你要 Hook layoutSubviews
-    %orig;
 
-    // 直接强制转换（如果你 100% 确定 superview 是 AWENormalModeTabBarGeneralButton）
+    //禁用点击首页刷新
     AWENormalModeTabBarGeneralButton *button = (AWENormalModeTabBarGeneralButton *)[self superview];
     button.enabled = NO;
 }
