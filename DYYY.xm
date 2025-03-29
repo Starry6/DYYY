@@ -1841,6 +1841,63 @@
 
 %end
 
+%hook AWENormalModeTabBarFeedView
+
+- (void)layoutSubviews {
+    %orig;
+
+    NSString *indexTitle = [[NSUserDefaults standardUserDefaults] objectForKey:@"DYYYIndexTitle"];
+    NSString *friendsTitle = [[NSUserDefaults standardUserDefaults] objectForKey:@"DYYYFriendsTitle"];
+    NSString *msgTitle = [[NSUserDefaults standardUserDefaults] objectForKey:@"DYYYMsgTitle"];
+    NSString *selfTitle = [[NSUserDefaults standardUserDefaults] objectForKey:@"DYYYSelfTitle"];
+
+    for (UIView *subview in self.subviews) {
+        if ([subview class] == [UIView class]) {
+            BOOL hasImageView = NO;
+            for (UIView *childView in subview.subviews) {
+                if ([childView isKindOfClass:[UIImageView class]]) {
+                    hasImageView = YES;
+                    break;
+                }
+            }
+
+            if (hasImageView) {
+                subview.hidden = YES;
+                break;
+            }
+        }
+        if ([subview isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)subview;
+            if ([label.text isEqualToString:@"首页"]) {
+                if (indexTitle.length > 0) {
+                    [label setText:indexTitle];
+                    [self setNeedsLayout];
+                }
+            }
+            if ([label.text isEqualToString:@"朋友"]) {
+                if (friendsTitle.length > 0) {
+                    [label setText:friendsTitle];
+                    [self setNeedsLayout];
+                }
+            }
+            if ([label.text isEqualToString:@"消息"]) {
+                if (msgTitle.length > 0) {
+                    [label setText:msgTitle];
+                    [self setNeedsLayout];
+                }
+            }
+            if ([label.text isEqualToString:@"我"]) {
+                if (selfTitle.length > 0) {
+                    [label setText:selfTitle];
+                    [self setNeedsLayout];
+                }
+            }
+        }
+    }
+}
+
+%end
+
 %hook AWENormalModeTabBarTextView
 
 - (void)layoutSubviews {
