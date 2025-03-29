@@ -3611,19 +3611,14 @@ static BOOL isDownloadFlied = NO;
 //隐藏视频上方搜索
 %hook AWESearchEntranceView
 - (void)layoutSubviews {
-    %orig;
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DYYYHideVideoTopSearch"]) {
-        UIView *parentView = self.superview;
-        UIView *grandparentView = parentView.superview;
-        
-        if (grandparentView) {
-            grandparentView.hidden = YES;
-        } else if (parentView) {
-            parentView.hidden = YES;
-        } else {
-            self.hidden = YES;
+        if ([self respondsToSelector:@selector(removeFromSuperview)]) {
+            [self removeFromSuperview];
         }
+        self.hidden = YES; 
+        return;
     }
+    %orig;
 }
 %end
 
