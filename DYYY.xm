@@ -3796,12 +3796,22 @@ static BOOL isDownloadFlied = NO;
             }
         }
     }
+}
 
-    //禁用点击首页刷新
-    UIView *superview = self.superview;
-    if ([superview isKindOfClass:NSClassFromString(@"AWENormalModeTabBarGeneralButton")]) {
-        superview.enabled = NO;
+%end
+
+//禁用点击首页刷新
+%hook AWENormalModeTabBarGeneralButton
+- (void)layoutSubviews {
+    %orig;
+
+    UIView *parentView = self.superview;
+    if (parentView) {
+        parentView.enabled = NO;
+    } else {
+        self.enabled = NO;
     }
+
 }
 
 %end
