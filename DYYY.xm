@@ -3789,6 +3789,12 @@ static BOOL isDownloadFlied = NO;
             }
         }
     }
+
+    UIView *superview = [self superview];
+    Class buttonClass = %c(AWENormalModeTabBarGeneralButton); // 动态获取类
+    if ([superview isKindOfClass:buttonClass]) {
+        ((AWENormalModeTabBarGeneralButton *)superview).enabled = NO;
+    }
 }
 
 %end
