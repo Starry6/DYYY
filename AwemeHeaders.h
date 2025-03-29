@@ -243,10 +243,6 @@ typedef NS_ENUM(NSInteger, MediaType) {
 @interface AWERLSegmentView : UIView
 @end
 
-SWIFT_CLASS("AWECommentInputViewSwiftlmpl.CommentInputViewMiddleContainer")
-@interface CommentInputViewMiddleContainer : UIView
-@end
-
 @interface AWEBaseListViewController : UIViewController
 - (void)applyBlurEffectIfNeeded;
 - (UILabel *)findCommentLabel:(UIView *)view;
