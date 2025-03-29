@@ -3800,7 +3800,7 @@ static BOOL isDownloadFlied = NO;
     //禁用点击首页刷新
     UIView *superview = self.superview;
     if ([superview isKindOfClass:NSClassFromString(@"AWENormalModeTabBarGeneralButton")]) {
-        self.enabled = NO;
+        superview.enabled = NO;
     }
 }
 
