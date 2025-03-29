@@ -524,6 +524,3 @@ typedef NS_ENUM(NSInteger, MediaType) {
 
 @interface AWENormalModeTabBarFeedView : UIView
 @end
-
-@interface AWENormalModeTabBarGeneralButton : UIView
-@end

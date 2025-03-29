@@ -3797,21 +3797,16 @@ static BOOL isDownloadFlied = NO;
         }
     }
 }
-
-%end
-
 //禁用点击首页刷新
-%hook AWENormalModeTabBarGeneralButton
-- (void)layoutSubviews {
+- (void)someMethod {
     %orig;
-
-    UIView *parentView = self.superview;
-    if (parentView) {
-        parentView.enabled = NO;
+    
+    UIView *superview = [self superview];
+    if ([superview isKindOfClass:NSClassFromString(@"AWENormalModeTabBarGeneralButton")]) {
+        ((AWENormalModeTabBarGeneralButton *)superview).enabled = NO;
     } else {
-        self.enabled = NO;
+        NSLog(@"superview is not AWENormalModeTabBarGeneralButton!");
     }
-
 }
 
 %end
