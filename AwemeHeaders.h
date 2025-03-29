@@ -519,5 +519,5 @@ typedef NS_ENUM(NSInteger, MediaType) {
 @interface AWELiveFeedStatusLabel : UILabel
 @end
 
-@interface AWESearchEntranceView : UILabel
+@interface AWEElementStackView : UILabel
 @end

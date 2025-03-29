@@ -3609,7 +3609,7 @@ static BOOL isDownloadFlied = NO;
 %end
 
 //隐藏视频上方搜索
-%hook AWESearchEntranceView
+%hook AWEElementStackView
 - (void)layoutSubviews {
     %orig;
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DYYYHideVideoTopSearch"]) {
