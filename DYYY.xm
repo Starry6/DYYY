@@ -633,10 +633,6 @@
             if (![subview isKindOfClass:[UIVisualEffectView class]]) {
                 subview.backgroundColor = [UIColor clearColor];
             }
-            // 新增：设置 AWECommentInputViewSwiftImpl.CommentInputViewMiddleContainer 的透明度
-            if ([subview isKindOfClass:NSClassFromString(@"AWECommentInputViewSwiftImpl.CommentInputViewMiddleContainer")]) {
-                subview.alpha = 0.5; // 可根据需要调整透明度
-            }
         }
 
         UIVisualEffectView *existingBlurView = nil;
@@ -3598,6 +3594,25 @@ static BOOL isDownloadFlied = NO;
 - (void)layoutSubviews {
     %orig;
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DYYYHideEnterLive"]) {
+        UIView *parentView = self.superview;
+        UIView *grandparentView = parentView.superview;
+        
+        if (grandparentView) {
+            grandparentView.hidden = YES;
+        } else if (parentView) {
+            parentView.hidden = YES;
+        } else {
+            self.hidden = YES;
+        }
+    }
+}
+%end
+
+//隐藏视频上方搜索
+%hook AWESearchEntranceView
+- (void)layoutSubviews {
+    %orig;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DYYYHideVideoTopSearch"]) {
         UIView *parentView = self.superview;
         UIView *grandparentView = parentView.superview;
         
