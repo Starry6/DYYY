@@ -3608,20 +3608,6 @@ static BOOL isDownloadFlied = NO;
 }
 %end
 
-//隐藏视频上方搜索
-%hook AWESearchEntranceView
-- (void)layoutSubviews {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DYYYHideVideoTopSearch"]) {
-        if ([self respondsToSelector:@selector(removeFromSuperview)]) {
-            [self removeFromSuperview];
-        }
-        self.hidden = YES; 
-        return;
-    }
-    %orig;
-}
-%end
-
 //去除消息群直播提示
 %hook AWEIMCellLiveStatusContainerView
 
@@ -3742,3 +3728,80 @@ static BOOL isDownloadFlied = NO;
         %init;
     }
 }
+
+//隐藏视频上方搜索
+%hook AWESearchEntranceView
+- (void)layoutSubviews {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DYYYHideVideoTopSearch"]) {
+        if ([self respondsToSelector:@selector(removeFromSuperview)]) {
+            [self removeFromSuperview];
+        }
+        self.hidden = YES; 
+        return;
+    }
+    %orig;
+}
+%end
+
+//去掉首页双列图标且禁止点击刷新
+%hook AWENormalModeTabBarFeedView
+- (void)layoutSubviews {
+    %orig;
+
+    NSString *indexTitle = [[NSUserDefaults standardUserDefaults] objectForKey:@"DYYYIndexTitle"];
+    NSString *friendsTitle = [[NSUserDefaults standardUserDefaults] objectForKey:@"DYYYFriendsTitle"];
+    NSString *msgTitle = [[NSUserDefaults standardUserDefaults] objectForKey:@"DYYYMsgTitle"];
+    NSString *selfTitle = [[NSUserDefaults standardUserDefaults] objectForKey:@"DYYYSelfTitle"];
+
+    for (UIView *subview in self.subviews) {
+        if ([subview class] == [UIView class]) {
+            BOOL hasImageView = NO;
+            for (UIView *childView in subview.subviews) {
+                if ([childView isKindOfClass:[UIImageView class]]) {
+                    hasImageView = YES;
+                    break;
+                }
+            }
+
+            if (hasImageView) {
+                subview.hidden = YES;
+                break;
+            }
+        }
+        if ([subview isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)subview;
+            if ([label.text isEqualToString:@"首页"]) {
+                if (indexTitle.length > 0) {
+                    [label setText:indexTitle];
+                    [self setNeedsLayout];
+                }
+            }
+            if ([label.text isEqualToString:@"朋友"]) {
+                if (friendsTitle.length > 0) {
+                    [label setText:friendsTitle];
+                    [self setNeedsLayout];
+                }
+            }
+            if ([label.text isEqualToString:@"消息"]) {
+                if (msgTitle.length > 0) {
+                    [label setText:msgTitle];
+                    [self setNeedsLayout];
+                }
+            }
+            if ([label.text isEqualToString:@"我"]) {
+                if (selfTitle.length > 0) {
+                    [label setText:selfTitle];
+                    [self setNeedsLayout];
+                }
+            }
+        }
+    }
+
+    //禁用点击首页刷新
+    UIView *superview = self.superview;
+    if ([superview isKindOfClass:NSClassFromString(@"AWENormalModeTabBarGeneralButton")]) {
+        self.enabled = NO;
+    }
+}
+
+%end
