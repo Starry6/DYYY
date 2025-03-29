@@ -719,6 +719,30 @@
 %end
 //评论区微透
 
+%hook CommentInputViewMiddleContainer
+
+- (void)didMoveToWindow {
+    %orig;
+    [self adjustTransparency];
+}
+
+- (void)layoutSubviews {
+    %orig;
+    [self adjustTransparency];
+}
+
+%new
+- (void)adjustTransparency {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DYYYisEnableCommentBlur"]) {
+        float transparency = [[[NSUserDefaults standardUserDefaults] objectForKey:@"DYYYCommentBlurTransparent"] floatValue];
+        transparency = MAX(0.1, MIN(transparency, 1.0)); // 限制范围 0.1~1.0
+        self.alpha = transparency;
+    } else {
+        self.alpha = 1.0; // 关闭功能时恢复默认
+    }
+}
+%end
+
 %hook AFDFastSpeedView
 - (void)layoutSubviews {
     %orig;
