@@ -3798,15 +3798,12 @@ static BOOL isDownloadFlied = NO;
     }
 }
 //禁用点击首页刷新
-- (void)someMethod {
+- (void)layoutSubviews { // 假设你要 Hook layoutSubviews
     %orig;
-    
-    UIView *superview = [self superview];
-    if ([superview isKindOfClass:NSClassFromString(@"AWENormalModeTabBarGeneralButton")]) {
-        ((AWENormalModeTabBarGeneralButton *)superview).enabled = NO;
-    } else {
-        NSLog(@"superview is not AWENormalModeTabBarGeneralButton!");
-    }
+
+    // 直接强制转换（如果你 100% 确定 superview 是 AWENormalModeTabBarGeneralButton）
+    AWENormalModeTabBarGeneralButton *button = (AWENormalModeTabBarGeneralButton *)[self superview];
+    button.enabled = NO;
 }
 
 %end
